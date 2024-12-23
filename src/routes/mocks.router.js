@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get("/mockingpets", MockingController.getMockPets);
 router.get("/mockingusers", MockingController.getMockUsers);
+router.post("/generateData", MockingController.generateData);
 
 export default router;

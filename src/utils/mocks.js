@@ -34,27 +34,30 @@ export const generatePets = (count = 1) => {
   });
 };
 
-export const generateUsers = (count = 1) => {
-  return Array.from({ length: count }, () => {
-    let first_name = faker.person.firstName();
-    let last_name = faker.person.lastName();
-    let email = faker.internet.email();
-    let password = createHash("coder123");
-    let role = faker.helpers.arrayElement(["user", "admin"]);
-    let pets = [];
-    let _id = faker.database.mongodbObjectId();
-    let __v = 0;
+export const generateUsers = async (count = 1) => {
+  return Promise.all(
+    Array.from({ length: count }, async () => {
+      let first_name = faker.person.firstName();
+      let last_name = faker.person.lastName();
+      let email = faker.internet.email();
+      let password = await createHash("coder123");
+      let role = faker.helpers.arrayElement(["user", "admin"]);
+      let pets = [];
+      let _id = faker.database.mongodbObjectId();
+      let __v = 0;
+      let createdAt = new Date().toISOString();
 
-    return {
-      _id,
-      first_name,
-      last_name,
-      email,
-      password,
-      role,
-      pets,
-      __v,
-      createdAt: new Date().toISOString(),
-    };
-  });
+      return {
+        _id,
+        first_name,
+        last_name,
+        email,
+        password,
+        role,
+        pets,
+        __v,
+        createdAt,
+      };
+    })
+  );
 };
