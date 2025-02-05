@@ -1,18 +1,9 @@
-openapi: 3.0.0
-info:
-  title: Pets API
-  version: 1.0.0
-  description: API para gestionar mascotas
-servers:
-  - url: http://localhost:8080
-    description: Servidor local
-
 paths:
   /pets:
     get:
-      summary: Obtener todas las mascotas
       tags:
         - Pets
+      summary: Obtener todas las mascotas
       responses:
         "200":
           description: Lista de mascotas
@@ -22,10 +13,22 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Pet"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
+
     post:
-      summary: Crear una nueva mascota
       tags:
         - Pets
+      summary: Crear una nueva mascota
       requestBody:
         required: true
         content:
@@ -38,13 +41,128 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pet"
+                type: object
+                properties:
+                  status:
+                    type: string
+                  payload:
+                    $ref: "#/components/schemas/Pet"
+        "400":
+          description: Valores incompletos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
+
+  /pets/{pid}:
+    put:
+      tags:
+        - Pets
+      summary: Actualizar una mascota
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PetInput"
+      responses:
+        "200":
+          description: Mascota actualizada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+        "404":
+          description: Mascota no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
+
+    delete:
+      tags:
+        - Pets
+      summary: Eliminar una mascota
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Mascota eliminada
+        "404":
+          description: Mascota no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
 
   /pets/withimage:
     post:
-      summary: Crear una mascota con imagen
       tags:
         - Pets
+      summary: Crear una mascota con imagen
       requestBody:
         required: true
         content:
@@ -68,41 +186,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pet"
-
-  /pets/{pid}:
-    put:
-      summary: Actualizar una mascota
-      tags:
-        - Pets
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PetInput"
-      responses:
-        "200":
-          description: Mascota actualizada
-    delete:
-      summary: Eliminar una mascota
-      tags:
-        - Pets
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "204":
-          description: Mascota eliminada
+                type: object
+                properties:
+                  status:
+                    type: string
+                  payload:
+                    $ref: "#/components/schemas/Pet"
+        "400":
+          description: Valores incompletos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: string
 
 components:
   schemas:
