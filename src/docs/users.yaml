@@ -1,0 +1,126 @@
+paths:
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Obtener todos los usuarios
+      responses:
+        "200":
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /users/{uid}:
+    get:
+      tags:
+        - Users
+      summary: Obtener un usuario por ID
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Usuario no encontrado
+
+    put:
+      tags:
+        - Users
+      summary: Actualizar un usuario
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: Usuario actualizado
+        "404":
+          description: Usuario no encontrado
+
+    delete:
+      tags:
+        - Users
+      summary: Eliminar un usuario
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Usuario eliminado
+        "404":
+          description: Usuario no encontrado
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: ["user", "admin"]
+          default: "user"
+        pets:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+
+    UserInput:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: ["user", "admin"]
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
