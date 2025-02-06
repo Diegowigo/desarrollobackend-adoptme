@@ -26,3 +26,5 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/mocks", mocksRouter);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+export default app;
