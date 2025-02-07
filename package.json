@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "mocha ./test/** --exit --timeout 8000"
+    "test": "cross-env NODE_ENV=test mocha ./test/** --exit --timeout 8000"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "chai": "^4.5.0",
+    "cross-env": "^7.0.3",
     "mocha": "^10.8.2",
     "supertest": "^7.0.0"
   }

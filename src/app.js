@@ -11,7 +11,11 @@ import { connDB } from "./connDB.js";
 import swaggerConfig from "./docs/docs.js";
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+let PORT = process.env.PORT;
+
+if (process.env.NODE_ENV === "test") {
+  PORT = 8081;
+}
 
 connDB();
 swaggerConfig(app);
